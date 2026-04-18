@@ -302,22 +302,29 @@ Manages database operations and clipboard access.
 - ✅ No permissions to read/write files outside app directory
 - ✅ Accessibility Service limited to clipboard monitoring
 
-## Building for Release
+## GitHub Release Management
 
-1. **Update version in `app/build.gradle.kts`**:
-   ```kotlin
-   versionCode = 2
-   versionName = "1.1.0"
-   ```
+The project includes a modular CI/CD pipeline that automatically:
 
-2. **Generate signed APK**:
-   - Build > Generate Signed APK/Bundle
-   - Follow the wizard to create/select keystore
+- **📋 Tests**: Runs unit tests on every push
+- **🏗️ Builds**: Creates release APKs automatically
+- **🚀 Releases**: Publishes GitHub Releases with APK artifacts on version tags
 
-3. **Or use Gradle command**:
-   ```bash
-   ./gradlew assembleRelease
-   ```
+### Quick Release Steps
+
+1. **Update version** in `buildConfig.gradle.kts`
+2. **Commit changes** to main
+3. **Create git tag**: `git tag v1.0.X`
+4. **Push to GitHub**: `git push origin main && git push origin v1.0.X`
+5. **GitHub Actions** automatically creates a release with the APK
+
+For complete release instructions and signing setup, see [RELEASE.md](RELEASE.md).
+
+### Download APK
+
+Users can download the latest release APK from:
+- **GitHub Releases**: https://github.com/YOUR_USERNAME/clipboard-rules/releases
+- **GitHub Actions Artifacts**: https://github.com/YOUR_USERNAME/clipboard-rules/actions (for development builds)
 
 ## Contributing
 
@@ -326,6 +333,24 @@ Contributions are welcome! Please:
 2. Create a feature branch
 3. Make your changes
 4. Submit a pull request
+
+## Build & Release
+
+### Build Modes
+
+**Debug APK** (development only):
+```bash
+./gradlew assembleDebug
+```
+Output: `app/build/outputs/apk/debug/app-debug.apk`
+
+**Release APK** (distribution):
+```bash
+./gradlew assembleRelease
+```
+Output: `app/build/outputs/apk/release/app-release.apk`
+
+For detailed release instructions, signing setup, and version management, see [RELEASE.md](RELEASE.md).
 
 ## Testing
 
@@ -421,7 +446,14 @@ Coverage reports will be generated in: `app/build/reports/jacoco/`
    ```bash
    ./gradlew test          # Run unit tests
    ./gradlew assembleDebug # Build debug APK
+   ./gradlew assembleRelease # Build release APK (unsigned)
    ```
+
+   **Output paths**:
+   - Debug: `app/build/outputs/apk/debug/app-debug.apk`
+   - Release: `app/build/outputs/apk/release/app-release.apk`
+
+For complete release and signing instructions, see [RELEASE.md](RELEASE.md).
 
 ### Run on Emulator
 
@@ -453,11 +485,23 @@ Coverage reports will be generated in: `app/build/reports/jacoco/`
 
 ## Continuous Integration with GitHub Actions
 
-The project is GitHub Actions ready. Every push to `main` automatically:
-- ✅ Compiles the project
-- ✅ Runs all unit tests
-- ✅ Builds debug APK
-- ✅ Uploads APK as downloadable artifact
+The project is **fully GitHub Actions enabled** with a modular, production-ready CI/CD pipeline.
+
+### Workflow Overview
+
+| Job | Trigger | Purpose |
+|-----|---------|---------|
+| **test** | Every push | Runs unit tests |
+| **build** | Every push (after tests) | Builds release APK |
+| **release** | Version tags (v*) | Creates GitHub Release |
+
+### Pipeline Features
+
+✅ **Automated Testing**: Runs 20+ unit tests on every push
+✅ **Release Builds**: Creates optimized APKs with ProGuard minification
+✅ **Signed Releases**: Supports optional keystore signing via GitHub Secrets
+✅ **Versioning**: Automatic version tagging and release notes
+✅ **Artifact Management**: APK downloads from Actions tab
 
 ### Setup CI/CD
 
@@ -471,14 +515,23 @@ The project is GitHub Actions ready. Every push to `main` automatically:
    ```
 
 2. **Monitor Builds**:
-   - Go to GitHub repo → Actions tab
-   - Watch workflow execute in real-time
-   - Download APK from artifact when complete
+   - Go to: `https://github.com/YOUR_USERNAME/clipboard-rules/actions`
+   - Watch workflow execute automatically
+   - Download APK from artifacts
 
-3. **Download APK**:
-   - Actions → Latest workflow
-   - Click "debug-apk" artifact
-   - Extract: `debug-apk/app/build/outputs/apk/debug/app-debug.apk`
+3. **For Signed Releases** (optional):
+   - Follow "GitHub Actions Secrets" section in [RELEASE.md](RELEASE.md)
+   - Configure 4 secrets in GitHub repo settings
+   - Version tags will automatically trigger signed releases
+
+### Download Build Artifacts
+
+**For Development** (Debug builds):
+- Actions tab → Latest commit workflow → debug-apk artifact
+
+**For Distribution** (Release builds):
+- Actions tab → Latest commit workflow → release-apk artifact
+- OR GitHub Releases tab → Download APK from latest version
 
 ## License
 

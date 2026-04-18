@@ -4,24 +4,62 @@ plugins {
     kotlin("kapt")
 }
 
+// ─────────────────────────────────────────────────────────────────────────
+// VERSIONING: Update these values for new releases
+// ─────────────────────────────────────────────────────────────────────────
+object AppVersions {
+    const val compileSdk = 34
+    const val minSdk = 28
+    const val targetSdk = 34
+    const val versionCode = 1
+    const val versionName = "1.0.0"
+    const val applicationId = "com.clipboard.rulemanager"
+    const val namespace = "com.clipboard.rulemanager"
+}
+
 android {
-    namespace = "com.clipboard.rulemanager"
-    compileSdk = 34
+    namespace = AppVersions.namespace
+    compileSdk = AppVersions.compileSdk
 
     defaultConfig {
-        applicationId = "com.clipboard.rulemanager"
-        minSdk = 28
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        applicationId = AppVersions.applicationId
+        minSdk = AppVersions.minSdk
+        targetSdk = AppVersions.targetSdk
+        versionCode = AppVersions.versionCode
+        versionName = AppVersions.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            // Signing configuration for release builds
+            // Supports environment variables for CI/CD (GitHub Actions):
+            //   SIGNING_KEY_ALIAS
+            //   SIGNING_KEY_PASSWORD
+            //   SIGNING_STORE_PASSWORD
+            //   SIGNING_KEYSTORE_PATH (optional, defaults to ~/.android/release.keystore)
+            // For local builds, use ~/.android/release.keystore with standard keystore password
+            
+            storeFile = File(
+                System.getenv("SIGNING_KEYSTORE_PATH") 
+                    ?: System.getProperty("user.home") + "/.android/release.keystore"
+            )
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD") ?: ""
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS") ?: ""
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD") ?: ""
+        }
+    }
+
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = signingConfigs.getByName("release")
+        }
+        debug {
+            isMinifyEnabled = false
+            isDebuggable = true
         }
     }
     compileOptions {
