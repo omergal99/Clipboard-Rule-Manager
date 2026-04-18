@@ -336,4 +336,3 @@ For bugs or feature requests, please open an issue on [GitHub Issues](https://gi
 ---
 
 **Made with ❤️ for cleaner URLs**
-# Clipboard-Rule-Manager

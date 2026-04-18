@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Clipboard Rule Manager</string>
+    <string name="accessibility_service_description">Monitor and clean clipboard content based on custom rules</string>
+    <string name="add_rule">Add Rule</string>
+    <string name="edit_rule">Edit Rule</string>
+    <string name="delete_rule">Delete Rule</string>
+    <string name="rule_name">Rule Name</string>
+    <string name="match_contains">Match Contains (Domain/Host)</string>
+    <string name="regex_pattern">Regex Pattern</string>
+    <string name="replacement_text">Replacement Text</string>
+    <string name="enabled">Enabled</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="service_enabled">Service Enabled</string>
+    <string name="service_disabled">Service Disabled</string>
+    <string name="service_not_installed">Service not installed. Please enable in Accessibility Settings.</string>
+    <string name="enable_service">Enable Service</string>
+    <string name="rules">Rules</string>
+    <string name="history">History</string>
+    <string name="export">Export Rules</string>
+    <string name="import_rules">Import Rules</string>
+    <string name="success">Success</string>
+    <string name="error">Error</string>
+    <string name="rule_deleted">Rule deleted</string>
+    <string name="rule_saved">Rule saved</string>
+    <string name="instagram_url_cleaner">Instagram URL Cleaner</string>
+    <string name="remove_tracking_params">Remove ?igsh= and other tracking parameters from Instagram URLs</string>
+</resources>

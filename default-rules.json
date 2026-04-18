@@ -1,0 +1,53 @@
+{
+  "version": "1.0.0",
+  "rules": [
+    {
+      "name": "Instagram URL Cleaner",
+      "description": "Remove ?igsh= tracking parameter from Instagram URLs",
+      "matchContains": "instagram.com",
+      "regex": "\\?igsh=.*$",
+      "replacement": "",
+      "enabled": true
+    },
+    {
+      "name": "Remove Query Parameters",
+      "description": "Remove all query parameters from any URL",
+      "matchContains": "",
+      "regex": "\\?.*$",
+      "replacement": "",
+      "enabled": false
+    },
+    {
+      "name": "YouTube Clean URL",
+      "description": "Remove YouTube tracking parameters",
+      "matchContains": "youtube.com",
+      "regex": "(&[a-z_]*=[^&]*)",
+      "replacement": "",
+      "enabled": false
+    },
+    {
+      "name": "Remove UTM Parameters",
+      "description": "Remove UTM tracking parameters",
+      "matchContains": "",
+      "regex": "[?&]utm_[^&]*",
+      "replacement": "",
+      "enabled": false
+    },
+    {
+      "name": "Amazon Affiliate Cleaner",
+      "description": "Remove affiliate tags from Amazon URLs",
+      "matchContains": "amazon.com",
+      "regex": "(\\?|&)(tag|ref-link-code)=[^&]*",
+      "replacement": "",
+      "enabled": false
+    },
+    {
+      "name": "Remove Twitter Tracking",
+      "description": "Remove tracking parameters from Twitter/X URLs",
+      "matchContains": "twitter.com",
+      "regex": "\\?.*$",
+      "replacement": "",
+      "enabled": false
+    }
+  ]
+}
