@@ -385,6 +385,101 @@ To generate test coverage reports:
 
 Coverage reports will be generated in: `app/build/reports/jacoco/`
 
+## Local Development on Ubuntu
+
+### Quick Setup
+
+1. **Install Java 17**:
+   ```bash
+   sudo apt-get install openjdk-17-jdk-headless gradle
+   java -version  # Should show version 17
+   ```
+
+2. **Install Android SDK**:
+   ```bash
+   mkdir -p ~/Android/Sdk/cmdline-tools
+   wget https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
+   unzip commandlinetools-linux-11076708_latest.zip -d ~/Android/Sdk/cmdline-tools/tmp
+   mv ~/Android/Sdk/cmdline-tools/tmp/cmdline-tools ~/Android/Sdk/cmdline-tools/latest
+   
+   export ANDROID_HOME=~/Android/Sdk
+   export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+   
+   sdkmanager "platform-tools" "platforms;android-34" "build-tools;34.0.0"
+   yes | sdkmanager --licenses
+   ```
+
+3. **Setup Project**:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/clipboard-rules.git
+   cd clipboard-rules
+   echo "sdk.dir=$HOME/Android/Sdk" > local.properties
+   chmod +x gradlew
+   ```
+
+4. **Build & Test**:
+   ```bash
+   ./gradlew test          # Run unit tests
+   ./gradlew assembleDebug # Build debug APK
+   ```
+
+### Run on Emulator
+
+1. **Create Virtual Device** (Android Studio):
+   ```
+   Tools → Device Manager → Create Device
+   Select: Pixel 6, Android 14 (API 34)
+   ```
+
+   Or use command line:
+   ```bash
+   sdkmanager "system-images;android-34;default;x86_64"
+   avdmanager create avd -n "Pixel_6_API_34" \
+     -k "system-images;android-34;default;x86_64" \
+     -d "Pixel 6"
+   ```
+
+2. **Start Emulator**:
+   ```bash
+   emulator -avd Pixel_6_API_34 &
+   ```
+
+3. **Install & Run**:
+   ```bash
+   adb devices  # Verify connection
+   ./gradlew installDebug
+   adb shell am start -n com.clipboard.rulemanager/.MainActivity
+   ```
+
+## Continuous Integration with GitHub Actions
+
+The project is GitHub Actions ready. Every push to `main` automatically:
+- ✅ Compiles the project
+- ✅ Runs all unit tests
+- ✅ Builds debug APK
+- ✅ Uploads APK as downloadable artifact
+
+### Setup CI/CD
+
+1. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Initial commit: Clipboard Rule Manager"
+   git branch -M main
+   git remote add origin https://github.com/YOUR_USERNAME/clipboard-rules.git
+   git push -u origin main
+   ```
+
+2. **Monitor Builds**:
+   - Go to GitHub repo → Actions tab
+   - Watch workflow execute in real-time
+   - Download APK from artifact when complete
+
+3. **Download APK**:
+   - Actions → Latest workflow
+   - Click "debug-apk" artifact
+   - Extract: `debug-apk/app/build/outputs/apk/debug/app-debug.apk`
+
 ## License
 
 This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
