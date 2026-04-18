@@ -35,7 +35,9 @@ class ClipboardAccessibilityService : AccessibilityService() {
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        if (event?.eventType != AccessibilityEvent.TYPE_CLIPBOARD_CHANGED) {
+        // Note: TYPE_CLIPBOARD_CHANGED is not available in standard AccessibilityEvent,
+        // so we listen to all events and check for text changes manually.
+        if (event == null) {
             return
         }
 
