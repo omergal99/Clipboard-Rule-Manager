@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<drawable xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Simple colored background for launcher icon -->
+    <shape android:shape="rectangle">
+        <solid android:color="#6200EE"/>
+    </shape>
+</drawable>

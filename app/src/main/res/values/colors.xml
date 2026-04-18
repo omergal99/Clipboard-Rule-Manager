@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary colors (Material 3) -->
+    <color name="primary">#6200EE</color>
+    <color name="on_primary">#FFFFFF</color>
+    <color name="primary_container">#EADDFF</color>
+    <color name="on_primary_container">#21005E</color>
+
+    <!-- Secondary colors -->
+    <color name="secondary">#03DAC6</color>
+    <color name="on_secondary">#000000</color>
+    <color name="secondary_container">#B2EBE4</color>
+    <color name="on_secondary_container">#004F47</color>
+
+    <!-- Tertiary colors -->
+    <color name="tertiary">#BB86FC</color>
+    <color name="on_tertiary">#000000</color>
+
+    <!-- Status colors -->
+    <color name="error">#B3261E</color>
+    <color name="on_error">#FFFFFF</color>
+    <color name="error_container">#F9DEDC</color>
+    <color name="on_error_container">#410E0B</color>
+
+    <!-- Neutral colors -->
+    <color name="background">#FFFFFF</color>
+    <color name="on_background">#1C1B1F</color>
+    <color name="surface">#FFFBFE</color>
+    <color name="on_surface">#1C1B1F</color>
+
+    <!-- Launcher icon background -->
+    <color name="ic_launcher_bg">#6200EE</color>
+</resources>
