@@ -32,17 +32,28 @@ An Android application that monitors your clipboard and automatically cleans URL
    cd clipboard-rules
    ```
 
-2. **Open in Android Studio**:
+2. **Setup Gradle Wrapper** (if gradle-wrapper.jar is missing):
+   ```bash
+   # If you have Gradle installed
+   gradle wrapper
+   
+   # Otherwise, use Android Studio to open the project
+   # Android Studio will automatically download and set up Gradle
+   ```
+
+3. **Open in Android Studio** (Recommended):
    - Open Android Studio
    - Select "Open an Existing Project"
    - Navigate to the `clipboard-rules` folder
+   - Let Android Studio sync and download dependencies
 
-3. **Build the project**:
+4. **Build the project** (from command line):
    ```bash
+   chmod +x gradlew        # Make script executable
    ./gradlew build
    ```
 
-4. **Run on device or emulator**:
+5. **Run on device or emulator**:
    - Connect your Android device or start an emulator
    - Click `Run` > `Run 'app'` in Android Studio
    - Or use: `./gradlew installDebug`
@@ -315,6 +326,64 @@ Contributions are welcome! Please:
 2. Create a feature branch
 3. Make your changes
 4. Submit a pull request
+
+## Testing
+
+The project includes comprehensive unit and integration tests to ensure code quality.
+
+### Running Tests
+
+**Unit Tests** (Test RuleEngine with various regex patterns):
+```bash
+./gradlew test
+```
+
+**Integration Tests** (Test database and repository operations):
+```bash
+./gradlew connectedAndroidTest
+```
+
+Or in Android Studio:
+- Right-click the test file
+- Select "Run Tests" or "Run with Coverage"
+
+### Test Coverage
+
+The test suite covers:
+- **RuleEngine Tests** (~40 test cases):
+  - Basic functionality (plain text, URL cleaning, query string removal)
+  - Condition matching (matchContains, case insensitivity)
+  - Multi-rule scenarios
+  - Anti-loop prevention
+  - Invalid regex handling
+  - Complex URL patterns (Amazon, YouTube, Reddit, etc.)
+  - Edge cases (empty strings, very long URLs, etc.)
+
+- **Repository Integration Tests**:
+  - CRUD operations for rules
+  - History tracking
+  - Database transactions
+  - Rule filtering (enabled/disabled)
+  - Multi-rule scenarios
+
+### Key Test Scenarios
+
+| Test | Purpose | Result |
+|------|---------|--------|
+| Plain text unchanged | Text without matching rules | No modification |
+| Instagram URL cleaned | Remove `?igsh=...` | URL cleaned ✅ |
+| No infinite loop | Same text processed twice | Prevented ✅ |
+| Rule toggle | Enable/disable works | Live toggle ✅ |
+| Multi-rule process | Multiple rules applied | All applied ✅ |
+
+### Running With Coverage
+
+To generate test coverage reports:
+```bash
+./gradlew test jacocoTestReport
+```
+
+Coverage reports will be generated in: `app/build/reports/jacoco/`
 
 ## License
 
